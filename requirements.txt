@@ -1,0 +1,7 @@
+opencv-python
+mediapipe
+torch
+numpy
+pandas
+matplotlib
+# libero will need to be installed from source according to their docs

@@ -1,0 +1,33 @@
+{
+  "mean_pos_mse": 0.00017774146908777766,
+  "median_pos_mse": 0.00018444245506543666,
+  "mean_gripper_acc": 1.0,
+  "n_val_episodes": 4,
+  "n_val_timesteps": 583,
+  "per_episode": [
+    {
+      "episode_id": 1,
+      "n_frames": 130,
+      "pos_mse": 0.00012279817019589245,
+      "gripper_acc": 1.0
+    },
+    {
+      "episode_id": 9,
+      "n_frames": 131,
+      "pos_mse": 0.00021928279602434486,
+      "gripper_acc": 1.0
+    },
+    {
+      "episode_id": 13,
+      "n_frames": 146,
+      "pos_mse": 0.00019306506146676838,
+      "gripper_acc": 1.0
+    },
+    {
+      "episode_id": 15,
+      "n_frames": 176,
+      "pos_mse": 0.00017581984866410494,
+      "gripper_acc": 1.0
+    }
+  ]
+}
