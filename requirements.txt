@@ -1,7 +1,39 @@
-opencv-python
-mediapipe
-torch
-numpy
-pandas
-matplotlib
-# libero will need to be installed from source according to their docs
+# -------------------------------------------------------
+# Egocentric VLA Pipeline — Dependencies
+# -------------------------------------------------------
+
+# Core vision & ML
+opencv-python>=4.8.0
+mediapipe>=0.10.0
+torch>=2.1.0
+torchvision>=0.16.0
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+Pillow>=10.0.0
+pyarrow>=13.0.0          # required for Parquet I/O in step 4
+
+# LeRobot (SmolVLA fine-tuning + inference)
+# Install from PyPI:
+lerobot>=0.3.0
+# OR install the latest from source (recommended for SmolVLA):
+#   pip install git+https://github.com/huggingface/lerobot.git
+
+# HuggingFace ecosystem
+huggingface_hub>=0.20.0
+safetensors>=0.4.0
+transformers>=4.40.0
+
+# Utilities
+scipy>=1.11.0
+tqdm>=4.66.0
+
+# -------------------------------------------------------
+# Notes
+# -------------------------------------------------------
+# lerobot must be installed separately (not on PyPI for all versions).
+# Run:  pip install lerobot
+# Or:   pip install git+https://github.com/huggingface/lerobot.git
+#
+# For CUDA support, install torch with the appropriate CUDA wheel:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121

@@ -1,0 +1,26 @@
+{
+  "task": "Pick up the Rubik's cube and place it inside the bowl",
+  "max_steps": 120,
+  "results": {
+    "mlp": [
+      {
+        "trial": 1,
+        "success": false,
+        "steps": 120,
+        "time_s": 0.09
+      },
+      {
+        "trial": 2,
+        "success": false,
+        "steps": 120,
+        "time_s": 0.24
+      },
+      {
+        "trial": 3,
+        "success": false,
+        "steps": 120,
+        "time_s": 0.04
+      }
+    ]
+  }
+}

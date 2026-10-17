@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this pipeline or code in your research or project, please cite it as below."
+authors:
+  - family-names: "Gupta"
+    given-names: "Hansraj"
+title: "Egocentric VLA Pipeline: Monocular Phone Video to SmolVLA Policy for Robotic Manipulation"
+version: 1.0.0
+date-released: 2026-10-17
+url: "https://github.com/Hansrajgupta07/egocentric_vla_pipeline"
+keywords:
+  - robotics
+  - vision-language-action
+  - vla
+  - egocentric-vision
+  - imitation-learning
+  - lerobot
+  - libero
+  - smolvla

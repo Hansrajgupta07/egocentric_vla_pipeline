@@ -1,9 +1,17 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# Environments
+# C extensions & OS artifacts
+*.swp
+*.swo
+*~
+.DS_Store
+*Zone.Identifier*
+
+# Python Environments
 .env
 .venv
 env/
@@ -12,14 +20,29 @@ ENV/
 env.bak/
 venv.bak/
 
-# Datasets and checkpoints
-data/
-lerobot_dataset/
+# Raw video data & heavy archives
+raw_videos/
 *.mp4
-*.parquet
-smolvla_checkpoint/
+*.avi
+*.mov
+*.zip
+*.tar.gz
 
-# IDEs
+# Pretrained large model checkpoints & binary tasks
+smolvla_checkpoint*/
+checkpoints/
+hand_landmarker.task
+
+# Datasets (reproducible from pipeline scripts)
+lerobot_dataset/
+*.parquet
+
+# IDE & Editor settings
 .idea/
 .vscode/
-*.swp
+*.sublime-project
+*.sublime-workspace
+
+# Scratch & local logs
+scratch/
+*.log
