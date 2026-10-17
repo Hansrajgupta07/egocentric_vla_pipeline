@@ -7,19 +7,13 @@
         "trial": 1,
         "success": false,
         "steps": 120,
-        "time_s": 0.09
+        "time_s": 0.04
       },
       {
         "trial": 2,
         "success": false,
         "steps": 120,
-        "time_s": 0.24
-      },
-      {
-        "trial": 3,
-        "success": false,
-        "steps": 120,
-        "time_s": 0.04
+        "time_s": 0.02
       }
     ]
   }

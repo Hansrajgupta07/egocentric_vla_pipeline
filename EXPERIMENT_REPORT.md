@@ -1,6 +1,6 @@
 # Experiment Report — Egocentric VLA Pipeline
 
-**Generated:** 2026-10-17 16:00 UTC  
+**Generated:** 2026-10-17 16:35 UTC  
 **Task:** Pick up the Rubik's cube and place it inside the bowl  
 **Model:** SmolVLA 450M (HuggingFaceTB/SmolVLM2-500M-Video-Instruct)  
 **Fine-tuning:** 10,000 steps on egocentric phone demonstration dataset  
@@ -131,8 +131,8 @@ that is used to:
 
 ### TinyPolicy MLP closed-loop rollout
 
-![TinyPolicy MLP closed-loop rollout](rollout_trajectory.png)
+![TinyPolicy MLP closed-loop rollout](images/rollout_trajectory.png)
 
 ### Offline evaluation: predicted vs GT
 
-![Offline evaluation: predicted vs GT](eval_trajectory_plots.png)
+![Offline evaluation: predicted vs GT](images/eval_trajectory_plots.png)

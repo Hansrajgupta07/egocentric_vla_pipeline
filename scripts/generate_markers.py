@@ -14,7 +14,9 @@ except AttributeError:
     img_0 = cv2.aruco.drawMarker(aruco_dict, 0, 400, img_0, 1)
     img_1 = cv2.aruco.drawMarker(aruco_dict, 1, 400, img_1, 1)
 
-cv2.imwrite('marker_0_cube.png', img_0)
-cv2.imwrite('marker_1_bowl.png', img_1)
+import os
+os.makedirs('images', exist_ok=True)
+cv2.imwrite('images/marker_0_cube.png', img_0)
+cv2.imwrite('images/marker_1_bowl.png', img_1)
 
-print("Successfully generated marker_0_cube.png and marker_1_bowl.png")
+print("Successfully generated images/marker_0_cube.png and images/marker_1_bowl.png")

@@ -137,7 +137,7 @@ def compute_stats(results):
 # Plotting
 # ---------------------------------------------------------------------------
 
-def plot_comparison(all_stats, all_results, save_path="policy_comparison.png"):
+def plot_comparison(all_stats, all_results, save_path="images/policy_comparison.png"):
     names   = list(all_stats.keys())
     colors  = ["#2196F3", "#FF9800", "#4CAF50"][:len(names)]
 

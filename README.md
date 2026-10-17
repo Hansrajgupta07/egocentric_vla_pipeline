@@ -83,24 +83,29 @@ flowchart TD
 
 ```plaintext
 egocentric_vla_pipeline/
-├── 1_extract_features.py         # Step 1: MediaPipe + ArUco feature extraction
-├── 2_train_mlp.py                # Step 2: Behavioral cloning MLP baseline training
-├── 3_run_libero.py               # Step 3: Closed-loop simulation rollout (Franka workspace)
-├── 4_build_lerobot_dataset.py    # Step 4: LeRobot v2.0 dataset builder (Parquet)
-├── 5_evaluate_policy.py          # Step 5: Offline evaluation (MSE, Gripper Accuracy)
-├── 6_inference_smolvla.py        # Step 6: Multi-source SmolVLA inference (image/video/webcam)
-├── 7_live_robot_inference.py     # Step 7: Live hardware deployment (Mock/Serial/ROS)
-├── 8_compare_policies.py         # Step 8: Multi-trial benchmark & comparison
-├── _libero_sim.py                # Shared simulation dynamics & synthetic camera renderer
-├── model.py                      # TinyPolicy neural network architecture
-├── generate_markers.py           # ArUco marker image generator (ID 0 & ID 1)
-├── test_video_pipeline.py        # Diagnostic QA tool for individual demonstration videos
-├── batch_validate_videos.py      # Batch validation tool for raw video directory
-├── setup.sh                      # One-click environment and asset setup script
-├── requirements.txt              # Production dependency specifications
-├── EXPERIMENT_REPORT.md          # Comprehensive academic experiment and results report
-├── CITATION.cff                  # Citation metadata
-├── LICENSE                       # MIT License
+├── scripts/                      # Core pipeline & inference scripts
+│   ├── 1_extract_features.py     # Step 1: MediaPipe + ArUco feature extraction
+│   ├── 2_train_mlp.py            # Step 2: Behavioral cloning MLP baseline training
+│   ├── 3_run_libero.py           # Step 3: Closed-loop simulation rollout (Franka workspace)
+│   ├── 4_build_lerobot_dataset.py# Step 4: LeRobot v2.0 dataset builder (Parquet)
+│   ├── 5_evaluate_policy.py      # Step 5: Offline evaluation (MSE, Gripper Accuracy)
+│   ├── 6_inference_smolvla.py    # Step 6: Multi-source SmolVLA inference (image/video/webcam)
+│   ├── 7_live_robot_inference.py # Step 7: Live hardware deployment (Mock/Serial/ROS)
+│   ├── 8_compare_policies.py     # Step 8: Multi-trial benchmark & comparison
+│   ├── _libero_sim.py            # Shared simulation dynamics & synthetic camera renderer
+│   ├── model.py                  # TinyPolicy neural network architecture
+│   ├── generate_markers.py       # ArUco marker image generator (ID 0 & ID 1)
+│   ├── test_video_pipeline.py    # Diagnostic QA tool for individual demonstration videos
+│   └── batch_validate_videos.py  # Batch validation tool for raw video directory
+│
+├── images/                       # Visual assets, trajectories, and marker templates
+│   ├── rollout_trajectory.png    # Simulation rollout trajectory plot
+│   ├── eval_trajectory_plots.png # Offline predicted vs ground truth trajectories
+│   ├── marker_0_cube.png         # ArUco Marker 0 (Object / Cube)
+│   └── marker_1_bowl.png         # ArUco Marker 1 (Target / Bowl)
+│
+├── zips/                         # Packaged archives
+│   └── lerobot_dataset.zip       # Pre-packaged LeRobot v2.0 dataset
 │
 ├── agents/                       # Autonomous Multi-Agent Framework
 │   ├── __init__.py
@@ -113,17 +118,16 @@ egocentric_vla_pipeline/
 ├── notebooks/
 │   └── colab_finetune_smolvla.py # Google Colab SmolVLA fine-tuning script
 │
-├── assets/                       # Visual assets, trajectories, and marker templates
-│   ├── rollout_trajectory.png    # Simulation rollout trajectory plot
-│   ├── eval_trajectory_plots.png # Offline predicted vs ground truth trajectories
-│   ├── marker_0_cube.png         # ArUco Marker 0 (Object / Cube)
-│   └── marker_1_bowl.png         # ArUco Marker 1 (Target / Bowl)
-│
 ├── dataset.csv                   # Extracted state-action demonstration trajectories
 ├── dataset_meta.json             # DatasetAgent QA audit and train/val splits
 ├── eval_results.json             # Quantitative offline evaluation metrics
 ├── rollout_results.json          # Closed-loop simulation trial metrics
-└── policy.pt                     # Trained TinyPolicy MLP baseline checkpoint
+├── policy.pt                     # Trained TinyPolicy MLP baseline checkpoint
+├── setup.sh                      # One-click environment and asset setup script
+├── requirements.txt              # Production dependency specifications
+├── EXPERIMENT_REPORT.md          # Comprehensive academic experiment and results report
+├── CITATION.cff                  # Citation metadata
+└── LICENSE                       # MIT License
 ```
 
 ---
@@ -142,9 +146,9 @@ chmod +x setup.sh && ./setup.sh
 ### 2. Run Simulation Rollout (No GPU Required)
 Test the closed-loop simulation using the pre-trained `TinyPolicy` baseline:
 ```bash
-python3 3_run_libero.py --policy mlp --trials 3
+python3 scripts/3_run_libero.py --policy mlp --trials 3
 ```
-*Outputs real-time step dynamics and writes `rollout_trajectory.png`.*
+*Outputs real-time step dynamics and writes `images/rollout_trajectory.png`.*
 
 ### 3. Run Autonomous Agent Suite
 Execute dataset verification, multi-trial benchmarking, and report generation in one command:
@@ -159,14 +163,14 @@ python3 agents/orchestrator.py --eval-trials 5
 ### Step 1: Feature Extraction & Retargeting
 Processes raw egocentric videos (`raw_videos/`), detects the human hand wrist and fingertips, tracks ArUco markers placed on the cube (ID 0) and bowl (ID 1), and derives state-action tuples:
 ```bash
-python3 1_extract_features.py
+python3 scripts/1_extract_features.py
 ```
 *Generates `dataset.csv` with 7-dim state $[x_{hand}, y_{hand}, z_{hand}, x_{cube}, y_{cube}, x_{bowl}, y_{bowl}]$ and 4-dim action $[\Delta x, \Delta y, \Delta z, \text{gripper}]$.*
 
 ### Step 2: Train Behavioral Cloning Baseline
 Trains the `TinyPolicy` MLP (128 hidden units, Adam optimizer, MSE loss) on CPU in under 2 minutes:
 ```bash
-python3 2_train_mlp.py
+python3 scripts/2_train_mlp.py
 ```
 *Saves checkpoint to `policy.pt` and training curves to `training_history.json`.*
 
@@ -174,19 +178,19 @@ python3 2_train_mlp.py
 Simulates the Franka Panda manipulator executing pick-and-place in normalized workspace coordinates:
 ```bash
 # Evaluate TinyPolicy MLP
-python3 3_run_libero.py --policy mlp --trials 5
+python3 scripts/3_run_libero.py --policy mlp --trials 5
 
 # Evaluate SmolVLA checkpoint (with synthetic camera rendering)
-python3 3_run_libero.py --policy smolvla --trials 5
+python3 scripts/3_run_libero.py --policy smolvla --trials 5
 
 # Run both sequentially
-python3 3_run_libero.py --policy both --trials 5
+python3 scripts/3_run_libero.py --policy both --trials 5
 ```
 
 ### Step 4: Build LeRobot v2.0 Dataset
 Converts extracted CSV trajectories and source MP4 videos into standardized LeRobot Parquet format:
 ```bash
-python3 4_build_lerobot_dataset.py
+python3 scripts/4_build_lerobot_dataset.py
 ```
 *Creates `lerobot_dataset/` with episode metadata, video streams, and normalization statistics.*
 
@@ -200,23 +204,23 @@ Upload `notebooks/colab_finetune_smolvla.py` and your dataset to Google Colab wi
 Run SmolVLA predictions on test images, saved videos, or your live webcam:
 ```bash
 # Webcam mode with real-time HUD
-python3 6_inference_smolvla.py --source webcam --device cpu
+python3 scripts/6_inference_smolvla.py --source webcam --device cpu
 
 # Video file mode
-python3 6_inference_smolvla.py --source video --path raw_videos/demo.mp4
+python3 scripts/6_inference_smolvla.py --source video --path raw_videos/demo.mp4
 ```
 
 ### Step 7: Hardware Deployment
 Bridge model action predictions directly to physical robotic manipulators:
 ```bash
 # Mock simulation backend
-python3 7_live_robot_inference.py --backend mock
+python3 scripts/7_live_robot_inference.py --backend mock
 
 # Arduino / ESP32 microcontroller over USB Serial
-python3 7_live_robot_inference.py --backend serial --port /dev/ttyUSB0 --baud 115200
+python3 scripts/7_live_robot_inference.py --backend serial --port /dev/ttyUSB0 --baud 115200
 
 # ROS 2 Panda action topic publisher
-python3 7_live_robot_inference.py --backend ros --topic /panda/cartesian_delta_action
+python3 scripts/7_live_robot_inference.py --backend ros --topic /panda/cartesian_delta_action
 ```
 
 ---
@@ -238,7 +242,7 @@ Evaluated on held-out demonstration episodes (583 timesteps):
 
 | Closed-Loop Simulation Rollout | Predicted vs Ground Truth |
 |:---:|:---:|
-| ![Simulation Rollout](assets/rollout_trajectory.png) | ![Offline Eval](assets/eval_trajectory_plots.png) |
+| ![Simulation Rollout](images/rollout_trajectory.png) | ![Offline Eval](images/eval_trajectory_plots.png) |
 | *Franka Panda end-effector trajectory navigating from home to cube (ID 0) and transport to bowl (ID 1).* | *Validation episode: Ground truth demonstration (blue) vs MLP predicted trajectory (orange).* |
 
 ---
@@ -254,15 +258,15 @@ Print and adhere the provided ArUco fiducials to physical objects for automatic 
       <td align="center"><b>Marker ID 1 — Place Target (Bowl)</b></td>
     </tr>
     <tr>
-      <td align="center"><img src="assets/marker_0_cube.png" width="180"/></td>
-      <td align="center"><img src="assets/marker_1_bowl.png" width="180"/></td>
+      <td align="center"><img src="images/marker_0_cube.png" width="180"/></td>
+      <td align="center"><img src="images/marker_1_bowl.png" width="180"/></td>
     </tr>
   </table>
 </div>
 
 To re-generate marker templates locally:
 ```bash
-python3 generate_markers.py
+python3 scripts/generate_markers.py
 ```
 
 ---

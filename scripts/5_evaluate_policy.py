@@ -79,9 +79,9 @@ def run_evaluation():
         plot_idx += 1
 
     plt.suptitle("Behavioral Cloning Policy: Predicted vs Ground-Truth Manipulation Trajectories", fontsize=11, y=1.01)
-    plt.tight_layout()
-    plt.savefig("eval_trajectory_plots.png", dpi=150, bbox_inches="tight")
-    print("Trajectory plots saved to eval_trajectory_plots.png")
+    os.makedirs("images", exist_ok=True)
+    plt.savefig("images/eval_trajectory_plots.png", dpi=150, bbox_inches="tight")
+    print("Trajectory plots saved to images/eval_trajectory_plots.png")
 
     # Aggregate metrics
     agg = {

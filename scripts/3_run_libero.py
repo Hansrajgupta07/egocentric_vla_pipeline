@@ -372,9 +372,10 @@ def run_policy(policy_name, args, env):
                   f"in {steps} steps ({elapsed:.1f}s)")
 
             if t == 0:
+                os.makedirs("images", exist_ok=True)
                 plot_trajectory(tx, ty, grips, env,
                     f"TinyPolicy MLP — Trial 1 — {'SUCCESS' if success else 'TIMEOUT'}",
-                    "rollout_trajectory.png")
+                    "images/rollout_trajectory.png")
 
     else:  # smolvla
         policy = load_smolvla(args.smolvla, device)
@@ -392,9 +393,10 @@ def run_policy(policy_name, args, env):
                   f"in {steps} steps ({elapsed:.1f}s)")
 
             if t == 0:
+                os.makedirs("images", exist_ok=True)
                 plot_trajectory(tx, ty, grips, env,
                     f"SmolVLA Policy — Trial 1 — {'SUCCESS' if success else 'TIMEOUT'}",
-                    "rollout_smolvla_trajectory.png")
+                    "images/rollout_smolvla_trajectory.png")
 
     return results
 

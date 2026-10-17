@@ -28,13 +28,13 @@ $PYTHON_BIN -m pip install --upgrade pip
 $PYTHON_BIN -m pip install -r requirements.txt
 
 # 4. Generate ArUco marker assets if missing
-if [ ! -f "marker_0_cube.png" ] || [ ! -f "marker_1_bowl.png" ]; then
+if [ ! -f "images/marker_0_cube.png" ] || [ ! -f "images/marker_1_bowl.png" ]; then
     echo "🏷️ Generating ArUco marker templates..."
-    $PYTHON_BIN generate_markers.py
+    $PYTHON_BIN scripts/generate_markers.py
 fi
 
 echo "=============================================================================="
 echo "🎉 Setup complete! You can now run:"
-echo "   python3 3_run_libero.py --policy mlp --trials 3"
+echo "   python3 scripts/3_run_libero.py --policy mlp --trials 3"
 echo "   python3 agents/orchestrator.py --eval-trials 5"
 echo "=============================================================================="

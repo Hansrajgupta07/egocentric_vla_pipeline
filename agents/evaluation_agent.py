@@ -28,9 +28,10 @@ import matplotlib.patches as mpatches
 from datetime import datetime
 from pathlib import Path
 
-# Add parent dir to path so we can import from project root
+# Add parent dir and scripts dir to path so we can import from project root
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 
 from _libero_sim import (
     SimulatedFrankaWorkspace,

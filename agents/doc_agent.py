@@ -268,9 +268,10 @@ that is used to:
             ("policy_comparison.png",          "Policy comparison benchmark"),
         ]
         for fname, caption in figs:
-            if os.path.exists(fname):
+            target_path = os.path.join("images", fname) if os.path.exists(os.path.join("images", fname)) else fname
+            if os.path.exists(target_path):
                 lines.append(f"### {caption}\n")
-                lines.append(f"![{caption}]({fname})\n")
+                lines.append(f"![{caption}]({target_path})\n")
 
         report_text = "\n".join(lines)
         Path(self.output_path).write_text(report_text)
